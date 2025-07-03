@@ -1,41 +1,34 @@
-//import { useState } from 'react';
-import { use client } from 'react';
-import axios from 'axios';
+"use client";
+
+import { useState } from "react";
+import axios from "axios";
 
 export default function Home() {
-  const [message, setMessage] = use client('');
-  const [response, setResponse] = use client('');
-  const [loading, setLoading] = use client(false);
-  const [error, setError] = use client('');
+  const [message, setMessage] = useState("");
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       const flowiseApiUrl = process.env.NEXT_PUBLIC_FLOWISE_API_ENDPOINT;
 
       if (!flowiseApiUrl) {
-        throw new Error('Flowise API Endpoint is not defined in environment variables.');
+        throw new Error("Flowise API Endpoint is not defined in env.");
       }
 
-      const data = { question: message };
+      const res = await axios.post(flowiseApiUrl, { question: message });
+      console.log(res.data);
 
-      const res = await axios.post(flowiseApiUrl, data);
-      console.log('Flowise API response:', res.data);
-
-      if (res.status !== 200) {
-        throw new Error(`Flowise API returned status code: ${res.status}`);
-      }
-
-      const botReply = res.data.text || res.data.response || 'No response text';
-      setResponse(botReply);
-      setMessage(''); // Clear only after success
+      setResponse(res.data.text || "No response");
+      setMessage("");
     } catch (err) {
-      console.error('Error calling Flowise API:', err);
-      setError(err.message || 'An unexpected error occurred.');
-      setResponse('');
+      console.error(err);
+      setError(err.message || "Unexpected error.");
     } finally {
       setLoading(false);
     }
@@ -53,12 +46,11 @@ export default function Home() {
           disabled={loading}
         />
         <button type="submit" disabled={loading}>
-          {loading ? 'Sending...' : 'Send'}
+          {loading ? "Sending..." : "Send"}
         </button>
       </form>
 
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
       {response && (
         <div>
           <h2>Bot Response:</h2>
