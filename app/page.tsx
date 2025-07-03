@@ -1,11 +1,12 @@
-import { useState } from 'react';
+//import { useState } from 'react';
+import { use client } from 'react';
 import axios from 'axios';
 
 export default function Home() {
-  const [message, setMessage] = useState('');
-  const [response, setResponse] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [message, setMessage] = use client('');
+  const [response, setResponse] = use client('');
+  const [loading, setLoading] = use client(false);
+  const [error, setError] = use client('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
