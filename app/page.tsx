@@ -9,7 +9,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -26,7 +26,7 @@ export default function Home() {
 
       setResponse(res.data.text || "No response");
       setMessage("");
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       setError(err.message || "Unexpected error.");
     } finally {
@@ -41,7 +41,7 @@ export default function Home() {
         <input
           type="text"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
           placeholder="Type your message..."
           disabled={loading}
         />
