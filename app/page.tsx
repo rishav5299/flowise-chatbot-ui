@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Home() {
+  console.log("Flowise API URL:", process.env.NEXT_PUBLIC_FLOWISE_API_ENDPOINT);
   const [message, setMessage] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,8 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
     setError("");
+      
+    console.log("Flowise API URL inside handleSubmit:", process.env.NEXT_PUBLIC_FLOWISE_API_ENDPOINT);
 
     try {
       const flowiseApiUrl = process.env.NEXT_PUBLIC_FLOWISE_API_ENDPOINT;
